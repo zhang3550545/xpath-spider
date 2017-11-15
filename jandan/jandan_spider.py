@@ -12,7 +12,6 @@ from lxml import etree
 
 
 class JanDanSpider(object):
-
     def __init__(self):
         """
         初始化数据，如headers,xpath的解析规则
@@ -70,11 +69,11 @@ class JanDanSpider(object):
             # 获取服务端的响应数据
             text = self.get_response(url)
             # 通过大图的解析规则，下载大图
-            self.parse_page(text, self.rule_large)
+            self.deal_images(self.parse_page(text, self.rule_large))
             # 通过正常图的解析规则，下载正常图
-            self.parse_page(text, self.rule_normal)
+            self.deal_images(self.parse_page(text, self.rule_normal))
             # 通过下一页的解析规则，加载下一页
-            self.parse_pre_page(text, self.rule_pre_page)
+            self.deal_pre_page(self.parse_page(text, self.rule_pre_page))
 
     def get_response(self, url):
         """
@@ -90,44 +89,48 @@ class JanDanSpider(object):
         解析页面
         :param text: 服务端返回的数据
         :param rule: 解析规则
-        :return:
+        :return: 返回解析页面的结果
         """
         # 通过etree库，将服务端返回的页面数据封装成html对象
         html = etree.HTML(text)
         # 通过xpath规则解析html对象，返回数据列表
-        images = html.xpath(rule)
-        # 遍历数据列表
-        for image in images:
-            if 'http:' not in image:
-                # 拼接图片的url
-                image = 'http:' + image
-            print(image)
-            # 下载图片
-            self.load_image(image)
-            # self.write_image_url(image)
+        return html.xpath(rule)
 
-    def parse_pre_page(self, text, rule):
+    def deal_images(self, images):
         """
-        解析下一页
-        :param text: 服务端返回的数据
-        :param rule: 解析规则
+        处理页面解析获得的图片
+        :param images: 解析页面返回的图片集合
         :return:
         """
-        # 通过etree库，将服务端返回的页面数据封装成html对象
-        html = etree.HTML(text)
-        # 通过xpath规则解析html对象，返回数据列表
-        urls = html.xpath(rule)
-        # 因为在页面有2处，解析有2个一样的地址
-        if len(urls) > 0:
-            # 取第一个
-            url = urls[0]
-            print(url)
-            if self.host in url:
-                if 'http:' not in url:
-                    # 拼接字符串
-                    url = 'http:' + url
-                    # 加载下一个页面
-                    self.load_page(url)
+        if images is not None:
+            # 遍历数据列表
+            for image in images:
+                if 'http:' not in image:
+                    # 拼接图片的url
+                    image = 'http:' + image
+                print(image)
+                # 下载图片
+                self.load_image(image)
+                # self.write_image_url(image)
+
+    def deal_pre_page(self, results):
+        """
+        处理下一页
+        :param results: 解析页面结果
+        :return:
+        """
+        if results is not None:
+            # 因为在页面有2处，解析有2个一样的地址
+            if len(results) > 0:
+                # 取第一个
+                url = urls[0]
+                print(url)
+                if self.host in url:
+                    if 'http:' not in url:
+                        # 拼接字符串
+                        url = 'http:' + url
+                        # 加载下一个页面
+                        self.load_page(url)
 
     def load_image(self, image_url):
         """
@@ -162,7 +165,6 @@ class JanDanSpider(object):
 
 
 if __name__ == '__main__':
-
     """
         爬取网站示例：http://jandan.net/ooxx
         
@@ -193,4 +195,3 @@ if __name__ == '__main__':
     url = "http://jandan.net/ooxx"
     spider = JanDanSpider()
     spider.load_page(url)
-
