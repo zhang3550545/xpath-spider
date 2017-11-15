@@ -123,7 +123,7 @@ class JanDanSpider(object):
             # 因为在页面有2处，解析有2个一样的地址
             if len(results) > 0:
                 # 取第一个
-                url = urls[0]
+                url = results[0]
                 print(url)
                 if self.host in url:
                     if 'http:' not in url:
