@@ -1,0 +1,46 @@
+
+
+
+
+
+
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="referrer" content="unsafe-url">
+		<script src="/content/loginbox/loginapi.js" ></script>
+		<script>
+			function redirect_back(){
+				var redirect = "http://www.csdn.net/";
+				var data = {"userId":59959344,"isLocked":false,"mobile":"18217362451","userName":"qq_33689414","email":"zhang3550545@126.com","password":"988ba3e6429975b7c136e0c19d713964","registerIP":"114.94.68.49","isDeleted":false,"isActived":true,"role":0,"registerTime":"Jan 9, 2016 8:29:16 PM","userType":0,"lastLoginIP":"101.88.224.123","lastLoginTime":"Nov 17, 2017 6:17:14 PM","loginTimes":262,"user_status":0,"activeTime":"Jan 9, 2016 8:29:16 PM","passwordStrongLevel":3,"ucSyncStatus":true,"nickName":"张行之","avatar":"http://avatar.csdn.net/7/F/0/1_qq_33689414.jpg"};
+				var userInfo = "ChnXHl65+QJsX9ttF/aQjFA4g63jTgu7QdqUEAt3caoiddJQjEgHwurc+AyrSVQy8FybrhRQTJHRTlCvrMajxT1ywnUL7YmGvtWMh3yCHl0LO7DPDU1fJ/FA8rLdo0kY8WqmCqo79imdoTIijTboNw=="; 
+				data.userName = data.userName;
+				data.encryptUserInfo = userInfo;
+				
+				csdn.login_param.call = function (){
+					location.href = redirect;
+				}
+				var _data = {};
+				_data.status = true;
+				_data.data = data;
+				csdn.login_data = data;
+				csdn.login_end();
+				/*var oauth = "";
+				if(oauth == "true"){
+					csdn.login_back(_data);	
+				}else{
+					csdn.login_data = data;
+					csdn.login_end();
+				};*/
+			}		
+		</script>
+	</head>
+	
+		
+		
+			<body onload="redirect_back();"></body>
+		
+	
+</html>
+

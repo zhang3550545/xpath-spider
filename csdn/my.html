@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link href="http://csdnimg.cn/public/favicon.ico" rel="SHORTCUT ICON">
+    <link rel="stylesheet" href="/assets2/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css">
+    <link rel="stylesheet" href="/assets2/css/common.css">
+    <link rel="stylesheet" href="/assets2/css/jquery-ui-1.10.3.css">
+    <!-- [if IE 7]-->
+    <link rel="stylesheet" href="/assets2/css/font-awesome-ie7.min.css">
+    <!-- [endif]-->
+    <!--新-->
+    <script src="/assets2/js/apps/jsonp.js"></script>
+    <script src="/assets2/js/apps/AskTags.js"></script>
+
+     <link rel="stylesheet" href="/assets2/css/bootstrap.css">
+<!--     <link rel="stylesheet" href="/assets2/css/popover.css"> -->
+    <link rel="stylesheet" href="/assets2/css/personal_home.css">
+<!--         <link rel="stylesheet" href="/assets2/css/pub_footer_2014.css"> -->
+    <script>
+      //document.domain="csdn.net";
+      domReady(function(){
+        var oT = document.getElementById( "searchKey" );//getByClass(document, 'search-text')[0];
+        //var oFormcon = getByClass(document,'search-from')[0];
+        //var oForm = document.getElementsByTagName('form')[0];
+        var oUl = document.getElementById('search-suggest');
+      
+        var url = "so.csdn.net";//document.domain;
+        //if (window.location.port != 80) {
+        //  url += ":" +window.location.port;
+        //}
+        var baseUrl = window.location.protocol + '//' + url;
+        var URL = baseUrl + '/so/search/so/autocomplete.do';
+      
+        var aLi=oUl.children;
+        window.iNow=-1;
+        oT.focus();
+        var oldValue='';
+      
+        oT.onkeyup=function(ev)
+        {
+          var oEvent=ev || event;
+          if(oEvent.keyCode==40 || oEvent.keyCode==38){
+            return;
+          }
+      
+          if(oEvent.keyCode==13){
+            //oForm.submit();
+            //window.location = baseUrl + "/so/search/s.do?q=" + oT.value;
+            window.open(baseUrl + "/so/search/s.do?q=" + oT.value);
+          }
+      
+          jsonp(URL, {q: oT.value}, function (json){
+      
+        	if (eval(json.suggestions).length == 0)
+            {
+              oUl.style.display='none';
+            }
+            else
+            {
+              oUl.style.display='block';
+              var data = eval('('+json.suggestions+')');
+            }
+            oUl.innerHTML='';
+            for(var i=0; i<data.length; i++)
+            {
+              var oLi=document.createElement('li');
+              oLi.innerHTML=data[i].key;
+              oUl.appendChild(oLi);
+            }
+      
+            for(var i=0; i<aLi.length; i++){
+              aLi[i].index=i;
+      
+              aLi[i].onmouseover=function(){
+                for(var i=0; i<aLi.length; i++){
+                  aLi[i].style.background='';
+                }
+                this.style.background='#ccc';
+                iNow=this.index;
+      
+              }
+      
+              aLi[i].onclick=function()
+              {
+                oT.value=aLi[this.index].innerHTML;
+                oT.focus();
+                oUl.style.display='none';
+              }
+      
+            }
+            oUl.style.left = oT.offsetLeft-1 + "px";
+            oUl.style.top = (oT.offsetTop + oT.offsetHeight + 2) + "px";
+          }, 'callback');
+      
+      
+          oldValue=oT.value;
+        }
+      
+        oT.onkeydown=function(ev){
+      
+          var oEvent=ev || event;
+          if(oEvent.keyCode==40){
+            iNow++;
+      
+            if(iNow==aLi.length){
+              iNow=-1;
+            }
+      
+            for(var i=0; i<aLi.length; i++){
+              aLi[i].style.background='';
+            }
+            if(iNow!=-1){
+              aLi[iNow].style.background='#ccc';
+              oT.value=aLi[iNow].innerHTML;
+            }else{
+              oT.value=oldValue;
+            }
+          }
+      
+          if(oEvent.keyCode==38){
+            iNow--;
+            if(iNow==-2){
+              iNow=aLi.length-1;
+            }
+      
+            for(var i=0; i<aLi.length; i++){
+              aLi[i].style.background='';
+            }
+            if(iNow!=-1){
+              aLi[iNow].style.background='#ccc';
+              oT.value=aLi[iNow].innerHTML;
+            }else{
+              oT.value=oldValue;
+            }
+            return false;
+          }
+        }
+      
+        oT.onclick=function(ev){
+          var oEvent=ev || event;
+          oEvent.cancelBubble=true;
+        }
+        $(document).bind("click", function () {
+            oUl.style.display='none';
+                  //document.onclick = function()
+                  //{
+                  //  oUl.style.display='none';
+                  //}
+        });
+      });
+    </script>
+        <style>
+.csdn-toolbar .logo .img {
+    background: url("/images/f_name.png") left center no-repeat;
+    float: left;
+    height: 40px;
+    margin-left: 10px;
+    width: 120px;
+}
+.main .persional_property .person-status .status .scores em{
+	cursor:pointer ;
+}
+</style>
+    <script type="text/javascript">
+      var username = 'qq_33689414';     
+      var oper_username = 'qq_33689414';    
+      document.domain="csdn.net";
+    </script>
+    <script src="/assets2/js/libs/jquery-1.9.0.min.js" type="text/javascript"></script>
+    <!-- [if lt IE 9]-->
+    <script src="/assets2/js/libs/html5shiv.min.js"></script>
+    <script src="/assets2/js/libs/flashcanvas.js"></script>
+    <!-- [endif]-->
+    <title>我的CSDN</title>
+     
+  </head>
+  <body>
+   <script id="toolbar-tpl-scriptId" skin="black" fixed="true" prod="my" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+       <script type="text/javascript">
+ 		 var protocol = window.location.protocol;
+		  document.write('<script type="text/javascript" src="' +protocol+ '//csdnimg.cn/pubfooter/js/repoAddr2.js?v=' + Math.random() + '"></'+'script>');
+	</script>
+	  	<div class="nav">
+	    <div class="nav_content">
+	        <li class="active"><a href="/my/mycsdn">首页</a></li>
+	        <li  ><a href="http://ask.csdn.net">技术问答</a></li>
+	        <li><a href="http://lib.csdn.net" target="_blank">知识库</a></li>
+	     
+	        <li ><a href="/">个人主页</a></li>
+	       <li ><a href="http://msg.csdn.net/letters">消息中心</a></li>
+	         <li ><a href="/my/score">我的C币</a></li>
+	    </div>
+	</div>
+	
+    <!-- 
+    <div id="my-nav" role="banner" class="navbar navbar-static-top">
+      <nav role="navigation" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li ><a href="/">首页</a></li>
+          <li ><a href="/my/album">相册</a></li>
+          <li ><a href="/my/favorite">收藏</a></li>
+          <li ><a href="/my/follow">关系</a></li>
+          <li ><a href="http://msg.csdn.net/letters">私信</a></li>
+          <li ><a href="/my/feed">动态</a></li>
+     
+        </ul>
+        <div class="pull-right"><a href="https://my.csdn.net/my/account/changepwd" title="帐号设置" class="btn btn-cfg"></a></div>
+      </nav>
+    </div>
+     -->
+
+     <!--主页搜索框输入建议内容-->
+    <ul id="search-suggest" style="display:none;" class="search-suggest">
+      <li style="background: rgb(204, 204, 204);">这就是搜索引擎：核心技术详解</li>
+    </ul>
+    <!--提问弹出框输入建议内容-->
+    <div id="div_sc" class="searchContainer">
+      <div class="sTitle">可能存在类似的问题：</div>
+      <div class="sFooter"><a class="sFirstNewAsk">我想提一个新问题</a></div>
+    </div>
+    <div id="suggestList" class="dySuggestList">
+      <div class="sTitle">请点击选择</div>
+    </div>
+    <div class="main clearfix">
+      <div class="ph_left clearfix">
+        <div class="ph_left_1 clearfix">
+          <div class="ph_left_1_1"><img src="/assets2/images/ph_left_1_deng.fw.png" class="pl11_img"><span class="pl11_span">算法和数据结构是程序的第一秘诀，缺之算法和数据结构是编程的最大原因。</span></div>
+          <div class="ph_left_1_2 clearfix">
+            <div class="ph_left_1_2_in">
+              <input id="searchKey" type="text" placeholder="搜索技术资源，博客，资讯，问答..." class="pl12_in">
+              <div class="pl12_search"><a id="searchBtn" class="pl12_s_btn"><img src="/assets2/images/ph_left_1_search.fw.png" class="pl12_s_img"></a></div>
+            </div>
+            <div class="ph_left_1_2_btn"><a href="#" class="want_ask"><img src="/assets2/images/ph_left_1_plus.fw.png" class="wa_img"><span class="wa_span">&nbsp;&nbsp;我要提问</span></a></div>
+          </div>
+          <div class="ph_left_1_3"><span class="pl13_span">热门搜索 ：</span></div>
+        </div>
+        <div class="ph_left2"><span class="pl2_span">最新求助： 5</span><span class="pl2_span">问题更新： 6</span><span class="pl2_span">未读私信： 58</span><span class="pl2_span">最近关注： 5</span></div>
+        <div class="ph_left3 clearfix">
+          <div class="ph_l3_nav clearfix">
+            <div id="tabJK" class="ph_l3_tab clearfix"><a href="javascript:void(0)" class="pactive">全部文章</a><a href="javascript:void(0)" class="pnonactive">技术博客</a><a href="javascript:void(0)" class="pnonactive">前沿资讯</a></div>
+            <div class="ph_l3_dy clearfix"><a id="btn_dy" class="ph_l3_dy_btn">订阅设置</a></div>
+          </div>
+          <div id="div_data" class="ph_l3_data "  >
+            <div id="div_JK" class="activeContent">
+              <div class="item_list">
+                
+              </div>
+              <div id="div_JK_loading" class="ph_loading">
+                <image src="/assets2/images/loading3.gif" class="img_loadi"></image>
+              </div>
+              <div id="no_data" class="no-mess icon-th-list"><span>暂无数据</span></div>
+              <div id="div_JK_more" class="ph_more   tracking-ad"   data-mod="popu_70"  chg-blk="0"><a href="javascript:void(0)">显示更多<span class="icon-angle-down"></span></a></div>
+              <div id="div_JK_page" class="ph_page csdn-pagination  tracking-ad"   data-mod="popu_71"  chg-blk="0"><a id="btn_jkFirst" href="javascript:void(0)" class="btn btn-xs btn-default btn-go">返回第一页</a><a id="btn_jkPrev" href="javascript:void(0)" class="btn btn-xs btn-default btn-prev"><i class="icon-angle-left"></i></a><a id="btn_jkNext" href="javascript:void(0)" class="btn btn-xs btn-default btn-next"><i class="icon-angle-right"></i></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ph_right">
+        <div class="ph_right1">
+          <div class="phr_first">
+            <div class="phrf_photo">
+                          			<a href="/"><img src="http://avatar.csdn.net/7/F/0/1_qq_33689414.jpg"></a>
+            </div>
+            <div class="phrf_detail">
+              <div class="phrf_name"><span><a href="/qq_33689414" target=_blank>张行之</a>&nbsp;&nbsp;</span></div>
+              <div class="phrf_pos"><span title='Android工程师'>Android工程师</span></div>
+              <div class="phrf_xz clearfix">
+			  <ul class="xzul">
+		              <li class="xzli">
+		              <span class="medals">
+		              <i class="medal m302" title="专栏达人"></i><i class="medal m304" title="持之以恒"></i>		              		
+		              </span>
+		              </li>
+		            </ul>
+	      </div>
+            </div>
+          </div>
+          <div class="phr_second">
+          			<span class="phib_ri"><a href='/my/follow' target=_blank >49</a>&nbsp;&nbsp;<a href='/my/follow' target=_blank >关注</a></span>
+          			<span class="phib_r"></span><span class="phib_ri"><a href='/my/fans' target=_blank>63</a>&nbsp;&nbsp;<a href='/my/fans' target=_blank>粉丝</a></span>
+          			<span class="phib_r"></span><span class="phib_rii"><span>&nbsp; 币 470</span></span></div>
+        </div>
+        <div class="phr_third clearfix">
+          <div class="phr_third_tit">
+            <div class="phrt_t">热门服务</div>
+          </div>
+          <div class="phr_third_con tracking-ad"  data-mod="popu_58" >
+          			<a href="http://lib.csdn.net/" target="_blank" >知识库</a>
+          			<a href="http://blog.csdn.net/" target="_blank">博客</a>
+          			<a href="http://download.csdn.net/?ref=toolbar" target="_blank">下载</a>
+          			<a href="http://bbs.csdn.net/home" target="_blank">论坛</a>
+          			<a   href="https://code.csdn.net/" target="_blank"  >CODE</a>
+<!--           			<a href="http://student.csdn.net"  target="_blank">高校俱乐部</a> -->
+          			<a href="http://cto.csdn.net/?ref=toolbar" target="_blank">CTO俱乐部</a>
+<!--            			<a href="http://edu.csdn.net/" target="_blank" >学院<img src="/assets2/images/new.gif" style="margin-top: -22px;"></a>  -->
+<!--           			<a href="http://hero.csdn.net/?ref=toolbar" target="_blank">英雄会</a> -->
+          </div>
+        </div>
+        <div class="phr_right3">
+          <div class="phrr_dl">
+            <div id="tabJC" class="phrr_tab"><a href="javascript:void(0)" class="ppactive">精彩问答</a><a href="javascript:void(0)" class="ppnonactive">热门博客</a><a href="javascript:void(0)" class="last-c ppnonactive">热门资源</a></div>
+            <div id="div_data_right" class="phrr_div tracking-ad"  data-mod="popu_59" >
+              <div id="div_jc" class="tTab_data phrr_active">
+               
+              </div>
+              <div id="div_blog" class="tTab_data phrr_nonactive">
+             
+              </div>
+              <div id="div_res" class="tTab_data phrr_nonactive">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+                </div>
+      <div class="pop_edit div_del_confirm">
+        <h3>删除确认</h3><a href="#" nodeType="close" class="close">×</a>
+        <div class="context">
+          <form id="form" nodeType="form-popup" class="form">
+            <div class="del_content"><span>您确认删除此信息么？</span></div>
+          </form>
+        </div>
+        <div class="success"><a href="#" nodeType="cancel" class="cancel">取消</a><a href="#" nodeType="ok" class="ok">确认</a></div>
+      </div>
+      <div class="pop_edit dySetting">
+        <h3>订阅设置</h3><a href="#" nodeType="close" class="close">×</a>
+        <div class="context">
+          <div class="dy_content">
+            <div class="div_input">
+              <input id="searchDy" type="text" placeholder="直接点击搜索提示结果即可添加订阅主题" class="input_dy">
+              <div class="div_btn"><a class="btn_dy"><img src="/assets2/images/ph_left_1_search.fw.png" class="btn_dy_img"></a></div>
+            </div>
+            <div class="div_reco_topic"><span class="drt_title">推荐主题：</span>
+              <div class="drt_topic">
+              </div>
+            </div>
+            <div class="div_myDy"><span class="sp_myDy_tit">我的订阅：</span>
+              <div class="myDy_Data">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="success">
+        </div>
+      </div>
+      <div class="pop_edit ask_success">
+        <h3>成功提示</h3><a href="#" nodeType="close" class="close">×</a>
+        <div class="context">
+          <form id="form" nodeType="form-popup" class="form">
+            <div class="s_first">
+              <div class="s_success"><img src="/assets2/images/ph_ask_success_ok.fw.png" class="ss_img"><span class="ss_txt">您的问题已发布成功！</span></div>
+              <div class="ss_desc"><span class="ss_desc_txt">您的问题将全同步推荐给熟悉该技术领域的热心人回答</span></div>
+              <div class="hot_p_list"><a class="hot_p_item"><img src="/assets2/images/ph_ask_success_hot_p.fw.png"></a><a class="hot_p_item"><img src="/assets2/images/ph_ask_success_hot_p.fw.png"></a><a class="hot_p_item"><img src="/assets2/images/ph_ask_success_hot_p.fw.png"></a><a class="hot_p_item"><img src="/assets2/images/ph_ask_success_hot_p.fw.png"></a><a class="hot_p_item"><img src="/assets2/images/ph_ask_success_hot_p.fw.png"></a></div>
+              <div class="hot_p_foot">包括但不限于以上热心人</div>
+            </div>
+            <div class="s_second">
+              <div class="ss_pable"><span>与所提问题可能相关的资料：</span></div>
+              <div class="ss_like_list"><a class="ss_like_item"><span class="ss_num">885</span><span class="ss_a">通过微信朋友圈和QQ浏览器打开的页面</span></a><a class="ss_like_item"><span class="ss_num">885</span><span class="ss_a">通过微信朋友圈和QQ浏览器打开的页面</span></a><a class="ss_like_item"><span class="ss_num">885</span><span class="ss_a">通过微信朋友圈和QQ浏览器打开的页面</span></a><a class="ss_like_item"><span class="ss_num">885</span><span class="ss_a">通过微信朋友圈和QQ浏览器打开的页面</span></a><a class="ss_like_item"><span class="ss_num">885</span><span class="ss_a">通过微信朋友圈和QQ浏览器打开的页面</span></a></div>
+            </div>
+          </form>
+        </div>
+        <div class="success">
+        </div>
+      </div>
+    </div>
+<!-- <script id="csdn-toolbar-id" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" type="text/javascript" src="/assets2/js/apps/publib_footer_2014.js"></script> -->
+    <script type="text/javascript" src="http://csdnimg.cn/pubfooter/js/publib_footer.js"></script>
+    <script type="text/javascript" src="http://c.csdnimg.cn/public/common/toolbar/js/toolbar.js"></script>
+    <script type="text/javascript" src="/assets2/js/apps/phJKReadList.js"></script>
+    <script src="/assets2/js/libs/jquery-ui-1.10.3.min.js"></script>
+    <script src="/assets2/js/libs/jquery.form.js" type="text/javascript"></script>
+    <script src="/assets2/js/libs/jquery-migrate-1.2.1.js" type="text/javascript"></script>
+    <script src="/assets2/js/libs/transparency.min.js" type="text/javascript"></script>
+    <script src="/assets2/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <script src="/assets2/js/libs/jquery.autocomplete.js" type="text/javascript"></script>
+    <script src="/assets2/js/libs/screen_shot.js"></script>
+ 
+    <script type="text/javascript" id="bdshare_js" data="type=tools"></script>
+    <script type="text/javascript" id="bdshell_js"></script>
+    <script>document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);</script>
+ 
+        
+        <!-- ask 全局悬浮按钮  -->
+   					<link href="http://csdnimg.cn/comm_ask/css/ask_float_block.css" rel="stylesheet" type="text/css" />
+			<script type="text/javascript" src="http://csdnimg.cn/comm_ask/js/libs/wmd.js"></script>
+			<script type="text/javascript" src="http://csdnimg.cn/comm_ask/js/libs/showdown.js"></script>
+			<script type="text/javascript" src="http://csdnimg.cn/comm_ask/js/libs/prettify.js"></script>
+			<script type="text/javascript" src="http://csdnimg.cn/comm_ask/js/apps/ask_float_block.js"></script>
+       <script data-main="/assets2/js/personal.home.js" src="/assets2/js/libs/require.js"></script>
+  </body>
+</html>
